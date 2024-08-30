@@ -15,7 +15,7 @@ module lock(
             counter[1] = 4'h0;
             counter[2] = 4'h0;
             counter[3] = 4'h0;
-				counter_val = 2'h0;
+			counter_val = 2'h0;
         end else
 		  if (try) begin 
 		      counter[0] = counter[0] + numbers[0];
