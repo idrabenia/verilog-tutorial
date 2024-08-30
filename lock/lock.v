@@ -2,42 +2,37 @@ module lock(
     input wire reset,
     input wire [3:0] numbers,
     input wire try,
-    output reg open
+    output reg open,
+	 output reg [1:0] counter_val
 );
 
-    reg [3:0] counters [3:0];
+	 reg [3:0] counter [3:0];
 
-    always@(posedge reset) begin
-        open <= 0;
-        counters[0] <= 0;
-        counters[1] <= 0;
-        counters[2] <= 0;
-        counters[3] <= 0;
-    end
-
-    always@(posedge numbers[0]) begin
-        counters[0] <= counters[0] + 1;
-    end
-
-    always@(posedge numbers[1]) begin
-        counters[1] <= counters[1] + 1;
-    end
-
-    always@(posedge numbers[2]) begin
-        counters[2] <= counters[2] + 1;
-    end
-
-    always@(posedge numbers[3]) begin
-        counters[3] <= counters[3] + 1;
-    end
-
-    always@(posedge try) begin
-        if (counters[0] == 4'h1 && counters[1] == 4'h2 
-            && counters[2] == 4'h3 &&counters[3] == 4'h4) begin
-            open <= 1;
-        end else begin
-            open <= 0;
-        end
+    always@(posedge reset, posedge try) begin
+        if (reset) begin
+            open = 1'h0;
+            counter[0] = 4'h0;
+            counter[1] = 4'h0;
+            counter[2] = 4'h0;
+            counter[3] = 4'h0;
+				counter_val = 2'h0;
+        end else
+		  if (try) begin 
+		      counter[0] = counter[0] + numbers[0];
+				counter[1] = counter[1] + numbers[1];
+				counter[2] = counter[2] + numbers[2];
+				counter[3] = counter[3] + numbers[3];
+				
+				open = counter[0] == 4'h1 && counter[1] == 4'h2 
+				    && counter[2] == 4'h3 && counter[3] == 4'h4;
+					 
+				case (numbers)
+					'b0001: counter_val = counter[0];
+					'b0010: counter_val = counter[1];
+					'b0100: counter_val = counter[2];
+					'b1000: counter_val = counter[3];
+				endcase
+		  end
     end
 
 endmodule
