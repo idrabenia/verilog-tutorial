@@ -1,16 +1,16 @@
 module test;
     
-    reg [1:0] in = 'b00;
+    reg [1:0] in = 'b11;
 
     initial begin
         $dumpfile("decode_2_4_test.vcd");
         $dumpvars(0, test);
 
-        #5 in = 'b00;
-        #10 in = 'b01;
-        #15 in = 'b10;
-        #20 in = 'b11;
-        #25 in = 'b00;
+        #5 in = 'b11;
+        #10 in = 'b10;
+        #15 in = 'b01;
+        #20 in = 'b00;
+        #25 in = 'b11;
 
         #30 $stop;
     end
