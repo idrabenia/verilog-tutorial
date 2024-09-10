@@ -32,13 +32,13 @@ module debouncer
     localparam wait_0_start = 3'b100;
     localparam wait_0 = 3'b101;
 
-    reg [2:0] state;
+    reg [2:0] state /* synthesis syn_encoding="safe" */;
     reg [2:0] state_next;
     reg out_val;
 
     always@(posedge clk, posedge reset) begin
         if (reset) begin
-            state <= 3'b000;
+            state <= zero;
         end else begin
             state <= state_next;
         end
